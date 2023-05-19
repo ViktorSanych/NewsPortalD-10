@@ -1,0 +1,17 @@
+{% extends 'flatpages/default.html' %}
+{% load custom_filters %}
+
+{% block content %}
+  <h1>Список новостей</h1>
+  
+  {% for post in news %}
+    <h3>{{ post.title }}</h3>
+    <p>Дата публикации: {{ post.created_at| date:'d M Y' }}</p>
+    <p>{{ post.text|truncatechars:20|censor }}...</p>
+    <hr>
+	  <a href="{% url 'post_detail' post.pk %}">Подробнее...</a>
+    <hr>
+  {% empty %}
+    <p>Нет доступных новостей.</p>
+  {% endfor %}
+{% endblock %}

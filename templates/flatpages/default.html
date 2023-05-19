@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>NewsPortal</title>
+</head>
+<body>
+  <header>
+    <div>
+      <h1>NewsPortal</h1>
+    </div>
+    <div>
+      <ul>
+        <li><a href="{% url 'news_list' %}">Новости</a></li>
+{#        <li><a href="{% url 'post_detail' post.pk %}">Новости</a></li>#}
+{#        <li><a href="{% url 'article_list' %}">Статьи</a></li>#}
+{#        <li><a href="{% url 'post_update' post.pk %}">Создать пост</a></li>#}
+{#        {% if user.is_authenticated %}#}
+{#          <li><a href="{% url 'logout' %}">Выйти</a></li>#}
+{#        {% else %}#}
+{#          <li><a href="{% url 'login' %}">Войти</a></li>#}
+{#          <li><a href="{% url 'register' %}">Зарегистрироваться</a></li>#}
+{#        {% endif %}#}
+      </ul>
+    </div>
+  </header>
+
+  <main>
+    {% block content %}
+    {% endblock %}
+  </main>
+</body>
+</html>
