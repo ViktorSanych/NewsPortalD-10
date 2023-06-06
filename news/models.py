@@ -4,6 +4,10 @@ from django.db.models import Sum
 
 
 class Author(models.Model):
+    class Meta:
+        verbose_name = 'Автор'
+        verbose_name_plural = 'Авторы'
+
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     rating_author = models.IntegerField(default=0)
 
@@ -19,6 +23,10 @@ class Author(models.Model):
 
 
 class Category(models.Model):
+    class Meta:
+        verbose_name = 'Категория'
+        verbose_name_plural = 'Категории'
+
     name_category = models.CharField(max_length=150, unique=True)
 
     def __str__(self):
@@ -26,6 +34,10 @@ class Category(models.Model):
 
 
 class Post(models.Model):
+    class Meta:
+        verbose_name = 'Пост'
+        verbose_name_plural = 'Посты'
+
     ARTICLE = 'article'
     NEWS = 'news'
     POST_TYPES = [
@@ -33,13 +45,13 @@ class Post(models.Model):
         (NEWS, 'Новость'),
     ]
 
-    author = models.ForeignKey(Author, on_delete=models.CASCADE)
-    post_type = models.CharField(max_length=10, choices=POST_TYPES)
+    author = models.ForeignKey(Author, verbose_name='Автор', on_delete=models.CASCADE)
+    post_type = models.CharField(max_length=10, verbose_name='тип поста', choices=POST_TYPES)
     created_at = models.DateTimeField(auto_now_add=True)
-    category = models.ManyToManyField(Category, through='PostCategory')
-    title = models.CharField(max_length=200)
-    text = models.TextField()
-    rating = models.IntegerField(default=0)
+    category = models.ManyToManyField(Category, verbose_name='Категория', through='PostCategory')
+    title = models.CharField(max_length=200, verbose_name='Заголовок')
+    text = models.TextField(verbose_name='Содержание')
+    rating = models.IntegerField(default=0, verbose_name='Рейтинг')
 
     def __str__(self):
         return self.title
@@ -57,14 +69,22 @@ class Post(models.Model):
 
 
 class PostCategory(models.Model):
+    class Meta:
+        verbose_name = 'Категория поста'
+        verbose_name_plural = 'Категории постов'
+
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, verbose_name='Категории', on_delete=models.CASCADE)
 
     def __str__(self):
         return f'{self.post.title} - {self.category.name_category}'
 
 
 class Comment(models.Model):
+    class Meta:
+        verbose_name = 'Комментарий'
+        verbose_name_plural = 'Комментарии'
+
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     author = models.ForeignKey(Author, on_delete=models.CASCADE)
     comment_text = models.TextField()
