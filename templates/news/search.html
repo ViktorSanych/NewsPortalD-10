@@ -1,0 +1,17 @@
+{% extends 'flatpages/default.html' %}
+
+{% block content %}
+    <h1>Результаты поиска</h1>
+    <hr>
+
+    <h2>Статьи</h2>
+    {% for article in articles %}
+        <h3>{{ article.title }}</h3>
+        <p>{{ article.author.name }}</p>
+        <p>{{ article.date }}</p>
+        <p>{{ article.content }}</p>
+        <hr>
+    {% empty %}
+        <p>Нет статей, соответствующих критериям поиска.</p>
+    {% endfor %}
+{% endblock %}

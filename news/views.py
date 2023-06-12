@@ -9,6 +9,7 @@ class NewsListView(ListView):
     template_name = 'news/news_list.html'
     context_object_name = 'news'
     ordering = ['-created_at']
+    paginate_by = 3
 
 
 # Представление для полного текста поста

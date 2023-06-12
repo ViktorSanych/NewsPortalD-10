@@ -41,7 +41,7 @@
         {% for post in news %}
         <tr>
             <th scope="row">{{ post.title|censor }}</th>
-            {% if post.type == 'AR' %}
+            {% if post.post_type == 'article' %}
                 <td>Статья</td>
             {% else %}
                 <td>Новость</td>
@@ -58,8 +58,9 @@
             <td><a class="btn btn-primary btn-sm" href="{% url 'post_delete' post.pk %}">Удалить</a></td>
         </tr>
         {% endfor %}
+{#		{% include "flatpages/pagination.html" %}#}
         </tbody>
     </table>
-
+{% include "flatpages/pagination.html" %}
 </div>
 {% endblock %}
