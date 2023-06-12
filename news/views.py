@@ -1,7 +1,9 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import DetailView, UpdateView, DeleteView, ListView
+from django_filters.views import FilterView
 from django.urls import reverse_lazy
 from .models import Post
+from .templatetags.filters import PostFilter
 
 
 class NewsListView(ListView):
@@ -31,3 +33,11 @@ class PostDeleteView(DeleteView):
     model = Post
     template_name = 'news/post_delete.html'
     success_url = reverse_lazy('news_list')
+
+
+# Представление для поиска статей
+class SearchView(FilterView):
+    model = Post
+    filterset_class = PostFilter
+    template_name = 'news/search.html'
+    paginate_by = 3

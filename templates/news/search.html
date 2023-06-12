@@ -1,17 +1,44 @@
 {% extends 'flatpages/default.html' %}
 
+{% block title %}  Поиск  {% endblock %}
+
 {% block content %}
-    <h1>Результаты поиска</h1>
+    <h1>Параметры поиска</h1>
     <hr>
 
-    <h2>Статьи</h2>
-    {% for article in articles %}
-        <h3>{{ article.title }}</h3>
-        <p>{{ article.author.name }}</p>
-        <p>{{ article.date }}</p>
-        <p>{{ article.content }}</p>
-        <hr>
+	<form action="" method="get">
+		{{ filter.form.as_p }}
+		<button type="submit">
+			Искать
+		</button>
+		<div>
+			<br>
+		</div>
+		<a class="btn btn-warning" role="button" href="{{ request.path }}">
+			Сбросить фильтры
+		</a>
+	</form>
+
+	<hr>
+
+
+	<h2>Результаты поиска</h2>
+{#	{% if form.is_bound and not form.is_empty %}#}
+    {% for post in post_list %}
+
+			<h3>{{ post.title }}</h3>
+			<p>{{ post.author.name }}</p>
+			<p>{{ post.date }}</p>
+			<p>{{ post.content }}</p>
+{#		{% endif %}#}
+        <br>
     {% empty %}
         <p>Нет статей, соответствующих критериям поиска.</p>
     {% endfor %}
+
+
+	<br>
+
+	{% include 'flatpages/pagination.html' %}
+
 {% endblock %}
