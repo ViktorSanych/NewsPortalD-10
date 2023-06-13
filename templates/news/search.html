@@ -1,4 +1,5 @@
 {% extends 'flatpages/default.html' %}
+{% load custom_filters %}
 
 {% block title %}  Поиск  {% endblock %}
 
@@ -23,18 +24,16 @@
 
 
 	<h2>Результаты поиска</h2>
-{#	{% if form.is_bound and not form.is_empty %}#}
 		{% for post in post_list %}
 
-		<h3>{{ post.title }}</h3>
-		<p>{{ post.author.name }}</p>
-		<p>{{ post.date }}</p>
-		<p>{{ post.content }}</p>
+		<h5>{{ post.title }}</h5>
+		<p>{{ post.author.user.username }}</p>
+		<p>{{ post.created_at }}</p>
+		<p>{{ post.text|truncatechars:40|censor }}</p>
 	<br>
 		{% empty %}
 	<p>Нет статей, соответствующих критериям поиска.</p>
 		{% endfor %}
-{#	{% endif %}#}
 
 	<br>
 
