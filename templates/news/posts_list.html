@@ -38,7 +38,7 @@
         </tr>
         </thead>
         <tbody>
-        {% for post in news %}
+        {% for post in posts %}
         <tr>
             <th scope="row">{{ post.title|censor }}</th>
             {% if post.post_type == 'article' %}
