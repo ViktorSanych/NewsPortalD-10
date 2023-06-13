@@ -12,7 +12,7 @@ class PostsListView(ListView):
     template_name = 'news/posts_list.html'
     context_object_name = 'posts'
     ordering = ['-created_at']
-    paginate_by = 3
+    paginate_by = 5
 
 
 # Представление для полного текста поста
@@ -27,13 +27,14 @@ class PostUpdateView(UpdateView):
     model = Post
     template_name = 'news/post_update.html'
     fields = ['title', 'text']  # Указать необходимые поля для редактирования
+    success_url = reverse_lazy('posts_list')
 
 
 # Представление для подтверждения удаления поста
 class PostDeleteView(DeleteView):
     model = Post
     template_name = 'news/post_delete.html'
-    success_url = reverse_lazy('news_list')
+    success_url = reverse_lazy('posts_list')
 
 
 # Представление для поиска статей
@@ -44,37 +45,49 @@ class SearchView(FilterView):
     paginate_by = 3
 
 
-class NewsCreate(CreateView):
+# Представление для создания новости
+class NewsCreateView(CreateView):
+    form_class = PostForm
+    model = Post
+    template_name = 'news/news_create.html'
+    success_url = reverse_lazy('posts_list')
+
+    def form_valid(self, form):
+        form.instance.post_type = Post.NEWS    # задание по умолчанию типа поста
+        return super().form_valid(form)
+
+
+class NewsUpdateView(UpdateView):
     form_class = PostForm
     model = Post
     template_name = 'news/post_update.html'
 
 
-class NewsUpdate(UpdateView):
-    form_class = PostForm
-    model = Post
-    template_name = 'news/post_update.html'
-
-
-class NewsDelete(DeleteView):
+class NewsDeleteView(DeleteView):
     model = Post
     template_name = 'news/post_delete.html'
-    success_url = reverse_lazy('news_list')
+    success_url = reverse_lazy('posts_list')
 
 
-class ArticleCreate(CreateView):
+# Представление для создания статьи
+class ArticleCreateView(CreateView):
+    form_class = PostForm
+    model = Post
+    template_name = 'news/article_create.html'
+    success_url = reverse_lazy('posts_list')
+
+    def form_valid(self, form):
+        form.instance.post_type = Post.ARTICLE
+        return super().form_valid(form)
+
+
+class ArticleUpdateView(UpdateView):
     form_class = PostForm
     model = Post
     template_name = 'news/post_update.html'
 
 
-class ArticleUpdate(UpdateView):
-    form_class = PostForm
-    model = Post
-    template_name = 'news/post_update.html'
-
-
-class ArticleDelete(DeleteView):
+class ArticleDeleteView(DeleteView):
     model = Post
     template_name = 'news/post_delete.html'
-    success_url = reverse_lazy('news_list')
+    success_url = reverse_lazy('posts_list')

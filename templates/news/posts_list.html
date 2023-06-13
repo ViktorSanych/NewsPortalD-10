@@ -4,26 +4,10 @@
 
 {% block title %}  Список новостей  {% endblock %}
 
-{#{% block content %}#}
-{#  <h1>Список новостей</h1>#}
-{#  #}
-{#  {% for post in news %}#}
-{#    <h3>{{ post.title }}</h3>#}
-{#    <p>Дата публикации: {{ post.created_at| date:'d M Y' }}</p>#}
-{#    <p>{{ post.text|truncatechars:20|censor }}...</p>#}
-{#    <hr>#}
-{#	  <a href="{% url 'post_detail' post.pk %}">Подробнее...</a>#}
-{#	  <a href="{% url 'post_update' post.pk %}">Редактировать</a>#}
-{#	  <a href="{% url 'post_delete' post.pk %}">Удалить</a>#}
-{#    <hr>#}
-{#  {% empty %}#}
-{#    <p>Нет доступных новостей.</p>#}
-{#  {% endfor %}#}
-{#{% endblock %}#}
 {% block content %}
 <div class="col-lg-12 text-center" xmlns="http://www.w3.org/1999/html">
     <h1>Все посты</h1>
-    <h3>Всего постов: {{ news|length }}</h3>
+    <h3>Всего постов: {{ paginator.count }}</h3>
     <table class="table">
         <thead>
         <tr>
@@ -58,7 +42,6 @@
             <td><a class="btn btn-primary btn-sm" href="{% url 'post_delete' post.pk %}">Удалить</a></td>
         </tr>
         {% endfor %}
-{#		{% include "flatpages/pagination.html" %}#}
         </tbody>
     </table>
 {% include "flatpages/pagination.html" %}

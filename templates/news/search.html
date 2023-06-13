@@ -24,18 +24,17 @@
 
 	<h2>Результаты поиска</h2>
 {#	{% if form.is_bound and not form.is_empty %}#}
-    {% for post in post_list %}
+		{% for post in post_list %}
 
-			<h3>{{ post.title }}</h3>
-			<p>{{ post.author.name }}</p>
-			<p>{{ post.date }}</p>
-			<p>{{ post.content }}</p>
-{#		{% endif %}#}
-        <br>
-    {% empty %}
-        <p>Нет статей, соответствующих критериям поиска.</p>
-    {% endfor %}
-
+		<h3>{{ post.title }}</h3>
+		<p>{{ post.author.name }}</p>
+		<p>{{ post.date }}</p>
+		<p>{{ post.content }}</p>
+	<br>
+		{% empty %}
+	<p>Нет статей, соответствующих критериям поиска.</p>
+		{% endfor %}
+{#	{% endif %}#}
 
 	<br>
 
