@@ -1,8 +1,11 @@
+from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 from django.views.generic import DetailView, UpdateView, DeleteView, ListView, CreateView
 from django_filters.views import FilterView
 from django.urls import reverse_lazy
 
-from .forms import PostForm
+from .forms import PostForm, ProfileUpdateForm
 from .models import Post
 from news.filters import PostFilter
 
@@ -91,3 +94,15 @@ class ArticleDeleteView(DeleteView):
     model = Post
     template_name = 'news/post_delete.html'
     success_url = reverse_lazy('posts_list')
+
+
+@method_decorator(login_required, name='dispatch')
+class ProfileUpdateView(UpdateView):
+    model = User
+    form_class = ProfileUpdateForm
+    template_name = 'news/profile_update.html'
+    success_url = reverse_lazy('posts_list')
+
+    def get_object(self, queryset=None):
+        return self.request.user
+

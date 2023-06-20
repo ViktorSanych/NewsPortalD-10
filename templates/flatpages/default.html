@@ -48,6 +48,9 @@
 						<li class="nav-item">
 							<a class="nav-link" href="{% url 'account_logout' %}">Выйти</a>
 						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="{% url 'profile_update' pk=user.pk %}">Профиль</a>
+						</li>
 						{% endif %}
 					</ul>
 				</div>
