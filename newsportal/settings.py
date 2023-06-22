@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'news',
     'django_bootstrap5',
     'django.contrib.sites',
+    'django_filters',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
@@ -137,9 +138,20 @@ LOGIN_REDIRECT_URL = '/news/'
 LOGOUT_REDIRECT_URL = '/news/'
 
 ACCOUNT_EMAIL_REQUIRED = True
-# ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_EMAIL_VERIFICATION = None
+ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_AUTHENTICATION_METOD = 'email'
+
+SITE_URL = 'http://127.0.0.1:8000'
+
+# EMAIL_BACKEND = 'django.core.mail.backend.smpt.EmailBackend'
+EMAIL_HOST = 'smtp.yandex.ru'
+EMAIL_PORT = 465
+EMAIL_HOST_USER_FULL = os.getenv('EMAIL_HOST_USER_FULL')
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+EMAIL_USE_SSL = True
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

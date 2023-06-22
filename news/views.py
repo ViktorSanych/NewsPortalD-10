@@ -7,7 +7,7 @@ from django.urls import reverse_lazy
 
 from .forms import PostForm, ProfileUpdateForm
 from .models import Post
-from news.filters import PostFilter
+from .filters import PostFilter
 
 
 class PostsListView(ListView):
@@ -60,16 +60,16 @@ class NewsCreateView(CreateView):
         return super().form_valid(form)
 
 
-class NewsUpdateView(UpdateView):
-    form_class = PostForm
-    model = Post
-    template_name = 'news/post_update.html'
-
-
-class NewsDeleteView(DeleteView):
-    model = Post
-    template_name = 'news/post_delete.html'
-    success_url = reverse_lazy('posts_list')
+# class NewsUpdateView(UpdateView):
+#     form_class = PostForm
+#     model = Post
+#     template_name = 'news/post_update.html'
+#
+#
+# class NewsDeleteView(DeleteView):
+#     model = Post
+#     template_name = 'news/post_delete.html'
+#     success_url = reverse_lazy('posts_list')
 
 
 # Представление для создания статьи
@@ -84,16 +84,16 @@ class ArticleCreateView(CreateView):
         return super().form_valid(form)
 
 
-class ArticleUpdateView(UpdateView):
-    form_class = PostForm
-    model = Post
-    template_name = 'news/post_update.html'
-
-
-class ArticleDeleteView(DeleteView):
-    model = Post
-    template_name = 'news/post_delete.html'
-    success_url = reverse_lazy('posts_list')
+# class ArticleUpdateView(UpdateView):
+#     form_class = PostForm
+#     model = Post
+#     template_name = 'news/post_update.html'
+#
+#
+# class ArticleDeleteView(DeleteView):
+#     model = Post
+#     template_name = 'news/post_delete.html'
+#     success_url = reverse_lazy('posts_list')
 
 
 @method_decorator(login_required, name='dispatch')

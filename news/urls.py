@@ -4,6 +4,7 @@ from news.views import PostDetailView, PostUpdateView, PostDeleteView, PostsList
     NewsCreateView, ArticleCreateView, ProfileUpdateView
 
 urlpatterns = [
+    path('', PostsListView.as_view(), name='posts_list'),
     path('news/', PostsListView.as_view(), name='posts_list'),
     path('news/<int:pk>/', PostDetailView.as_view(), name='post_detail'),
     path('news/<int:pk>/edit/', PostUpdateView.as_view(), name='post_update'),
