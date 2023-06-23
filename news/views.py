@@ -1,5 +1,7 @@
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.shortcuts import redirect
 from django.utils.decorators import method_decorator
 from django.views.generic import DetailView, UpdateView, DeleteView, ListView, CreateView
 from django_filters.views import FilterView
@@ -49,7 +51,7 @@ class SearchView(FilterView):
 
 
 # Представление для создания новости
-class NewsCreateView(CreateView):
+class NewsCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     form_class = PostForm
     model = Post
     template_name = 'news/news_create.html'
@@ -73,7 +75,7 @@ class NewsCreateView(CreateView):
 
 
 # Представление для создания статьи
-class ArticleCreateView(CreateView):
+class ArticleCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     form_class = PostForm
     model = Post
     template_name = 'news/article_create.html'
@@ -106,3 +108,8 @@ class ProfileUpdateView(UpdateView):
     def get_object(self, queryset=None):
         return self.request.user
 
+    def form_valid(self, form):
+        if form.cleaned_data['become_author']:
+            author_group, _ = Group.objects.get_or_create(name='authors')
+            self.request.user.groups.add(author_group)
+        return super().form_valid(form)

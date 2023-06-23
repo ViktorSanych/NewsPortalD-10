@@ -8,4 +8,4 @@ from django.contrib.auth import get_user_model
 def add_user_to_common_group(sender, instance, created, **kwargs):
     if created:
         common_group, _ = Group.objects.get_or_create(name='common')
-        instance.groups.add(common_group)
+        instance.groups.add(common_group.id)

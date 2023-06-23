@@ -13,6 +13,7 @@ class PostForm(forms.ModelForm):
 class ProfileUpdateForm(UserChangeForm):
     email = forms.EmailField(required=True)
     group = forms.CharField(required=False, disabled=True)
+    become_author = forms.BooleanField(label='Стать автором!', required=False)
 
     class Meta:
         model = User
@@ -21,6 +22,9 @@ class ProfileUpdateForm(UserChangeForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['group'].initial = self.get_user_group()
+        if self.instance:
+            if self.instance.groups.filter(name='authors').exists():
+                self.fields['become_author'].initial = True
 
     def get_user_group(self):
         user = self.instance
@@ -29,3 +33,13 @@ class ProfileUpdateForm(UserChangeForm):
         elif user.groups.filter(name='authors').exists():
             return 'authors'
         return '---'
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        if self.cleaned_data['become_author']:
+            author_group, _ = Group.objects.get_or_create(name='authors')
+            user.groups.add(author_group)
+
+        if commit:
+            user.save()
+        return user
