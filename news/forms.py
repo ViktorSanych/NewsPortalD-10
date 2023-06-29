@@ -1,5 +1,5 @@
 from django import forms
-from .models import Post
+from .models import Post, Subscription
 from django.contrib.auth.forms import UserChangeForm
 from django.contrib.auth.models import User, Group
 
@@ -43,3 +43,17 @@ class ProfileUpdateForm(UserChangeForm):
         if commit:
             user.save()
         return user
+
+
+class SubscribeForm(forms.ModelForm):
+    email = forms.EmailField(label='Email')
+
+    def __init__(self, *args, **kwargs):
+        user_email = kwargs.pop('user_email', None)
+        super(SubscribeForm, self).__init__(*args, **kwargs)
+        if user_email:
+            self.fields['email'].initial = user_email
+
+    class Meta:
+        model = Subscription
+        fields = ['category', 'email']

@@ -4,14 +4,28 @@
 {% block title %} {{ post.title }} {% endblock %}
 
 {% block content %}
-  <h2>{{ post.title }}</h2>
-  <p>{{ post.text|censor }}</p>
-  <p>
-	  {% if post.post_type == 'news' %}
-		  <td>Новость</td>
-		  {% else %}
-		  <td>Статья</td>
-	  {% endif %}
-  </p>
+	<h2>{{ post.title }}</h2>
+	<p>{{ post.text|censor }}</p>
+	<p>
+		<td>
+			{% for category in post.category.all %}
+				{{ category.name_category }}
+			{% endfor %}
+		</td>
+		{% for category in post.category.all %}
+			<form method="post" action="{% url 'subscribe' category_id=category.id email=email %}">
+				{% csrf_token %}
+				<input type="hidden" name="category" value="{{ category.id }}">
+				<button type="submit">Подписаться на новости категории "{{ category.name_category }}"</button>
+			</form>
+			<br>
+		{% endfor %}
+	<br>
+	{% if post.post_type == 'news' %}
+		<td>Новость</td>
+	{% else %}
+		<td>Статья</td>
+	{% endif %}
+	<br><br>
 	<a href="{% url 'posts_list' %}" class="card-link">К списку статей...</a>
 {% endblock %}

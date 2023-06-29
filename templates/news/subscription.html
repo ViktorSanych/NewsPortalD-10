@@ -1,0 +1,10 @@
+{% extends 'flatpages/default.html' %}
+
+{% block content %}
+    <h2>Подписка на категорию "{{ category.name_category }}"</h2>
+    <form method="post" action="{% url 'subscribe' category_id=category.id email=email %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+		<button type="submit">Подписаться</button>
+    </form>
+{% endblock %}

@@ -1,15 +1,16 @@
 from django.contrib.auth.models import User, Group
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render, get_object_or_404
 from django.utils.decorators import method_decorator
 from django.views.generic import DetailView, UpdateView, DeleteView, ListView, CreateView
 from django_filters.views import FilterView
 from django.urls import reverse_lazy
 
-from .forms import PostForm, ProfileUpdateForm
-from .models import Post
+from .forms import PostForm, ProfileUpdateForm, SubscribeForm
+from .models import Post, Category, Subscription
 from .filters import PostFilter
+from .utils.mails import send_subscribe_mail
 
 
 class PostsListView(ListView):
@@ -25,6 +26,11 @@ class PostDetailView(DetailView):
     model = Post
     template_name = 'news/post_detail.html'
     context_object_name = 'post'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['email'] = self.request.GET.get('email')  # Получаем значение параметра 'email' из запроса
+        return context
 
 
 # Представление для редактирования поста
@@ -113,3 +119,28 @@ class ProfileUpdateView(UpdateView):
             author_group, _ = Group.objects.get_or_create(name='authors')
             self.request.user.groups.add(author_group)
         return super().form_valid(form)
+
+
+@login_required
+def subscribe_view(request, category_id, email):
+    category = get_object_or_404(Category, id=category_id)
+    user_email = request.user.email
+    user = request.user
+
+    if request.method == 'POST':
+        form = SubscribeForm(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data['email']
+            # Отправляем письмо подписчику
+
+            # Создаем подписку
+            subscription = Subscription(email=email, category=category, user_id=user.id)
+            subscription.save()
+
+            send_subscribe_mail(email, category.name_category)
+            # Переход на страницу со списком новостей
+            return redirect('posts_list')
+    else:
+        form = SubscribeForm(user_email=user_email)
+
+    return render(request, 'news/subscription.html', {'form': form, 'category': category, 'email': user_email})

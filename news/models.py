@@ -101,3 +101,10 @@ class Comment(models.Model):
     def dislike(self):
         self.rating += 1
         self.save()
+
+
+class Subscription(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    email = models.EmailField()
+    created_at = models.DateTimeField(auto_now_add=True)
