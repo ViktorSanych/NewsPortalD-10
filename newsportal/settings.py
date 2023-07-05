@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'news',
+    # 'news',
+    'news.apps.NewsConfig',
     'django_bootstrap5',
     'django.contrib.sites',
     'django_filters',
@@ -149,7 +150,7 @@ ACCOUNT_AUTHENTICATION_METHOD = 'email'
 
 SITE_URL = 'http://127.0.0.1:8000'
 
-# EMAIL_BACKEND = 'django.core.mail.backend.smpt.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backend.console.EmailBackend'
 EMAIL_HOST = 'smtp.yandex.ru'
 EMAIL_PORT = 465
 EMAIL_HOST_USER_FULL = os.getenv('EMAIL_HOST_USER_FULL')

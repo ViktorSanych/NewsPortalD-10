@@ -12,7 +12,7 @@ class PostForm(forms.ModelForm):
 
 class ProfileUpdateForm(UserChangeForm):
     email = forms.EmailField(required=True)
-    group = forms.CharField(required=False, disabled=True)
+    group = forms.ModelChoiceField(queryset=Group.objects.all(), required=False)
     become_author = forms.BooleanField(label='Стать автором!', required=False)
 
     class Meta:
@@ -21,10 +21,7 @@ class ProfileUpdateForm(UserChangeForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['group'].initial = self.get_user_group()
-        if self.instance:
-            if self.instance.groups.filter(name='authors').exists():
-                self.fields['become_author'].initial = True
+        self.fields['group'].queryset = self.instance.groups.all()
 
     def get_user_group(self):
         user = self.instance

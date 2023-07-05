@@ -1,0 +1,15 @@
+{% load custom_filters %}
+
+<!DOCTYPE html>
+<html lang="">
+<head>
+    <meta charset="UTF-8">
+    <title>Новая статья</title>
+</head>
+<body>
+    <h2>Новая статья опубликована</h2>
+    <p>{{ post_start|censor }}</p>
+    <p>Прочитать статью полностью:</p>
+    <a href="{{ post_url }}">Перейти к статье</a>
+</body>
+</html>

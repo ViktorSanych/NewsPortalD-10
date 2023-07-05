@@ -120,6 +120,13 @@ class ProfileUpdateView(UpdateView):
             self.request.user.groups.add(author_group)
         return super().form_valid(form)
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+        subscriptions = Subscription.objects.filter(user=user)
+        context['subscriptions'] = subscriptions
+        return context
+
 
 @login_required
 def subscribe_view(request, category_id, email):
@@ -131,13 +138,14 @@ def subscribe_view(request, category_id, email):
         form = SubscribeForm(request.POST)
         if form.is_valid():
             email = form.cleaned_data['email']
-            # Отправляем письмо подписчику
 
             # Создаем подписку
             subscription = Subscription(email=email, category=category, user_id=user.id)
             subscription.save()
 
+            # Отправляем письмо подписчику
             send_subscribe_mail(email, category.name_category)
+
             # Переход на страницу со списком новостей
             return redirect('posts_list')
     else:

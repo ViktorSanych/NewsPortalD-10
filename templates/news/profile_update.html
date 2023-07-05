@@ -15,6 +15,15 @@
 		{{ form.as_p }}
 		<button type="submit">Сохранить</button>
 		<input type="submit" value="Стать автором!">
+		<hr>
+
+		<h4>Ваши подписки</h4>
+		<ul>
+			{% for subscription in subscriptions %}
+				<li>{{ subscription.category }}</li>
+			{% endfor %}
+		</ul>
+
 	</form>
 	<hr>
 
