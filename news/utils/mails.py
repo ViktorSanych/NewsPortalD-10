@@ -3,8 +3,9 @@ from django.core.mail import send_mail
 
 from news.models import Subscription, PostCategory, Post
 
-from django.urls import reverse
 from django.template.loader import render_to_string
+
+from newsportal import settings
 
 
 def send_welcome_email(email):
@@ -36,7 +37,7 @@ def send_article_notifications(post_id):
         post_start = post.text[:40]
 
         # Получение ссылки на статью
-        post_url = reverse('post_detail', args=[post.pk])
+        post_url = f'{settings.SITE_URL}/news/{post_id}'
 
         # Генерация контекста для шаблона письма
         context = {'post_start': post_start, 'post_url': post_url}

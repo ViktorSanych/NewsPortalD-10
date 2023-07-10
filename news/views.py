@@ -62,6 +62,7 @@ class NewsCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     model = Post
     template_name = 'news/news_create.html'
     success_url = reverse_lazy('posts_list')
+    permission_required = 'news.news_create'
 
     def form_valid(self, form):
         form.instance.post_type = Post.NEWS    # задание по умолчанию типа поста
@@ -86,6 +87,7 @@ class ArticleCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView)
     model = Post
     template_name = 'news/article_create.html'
     success_url = reverse_lazy('posts_list')
+    permission_required = 'news.article_create'
 
     def form_valid(self, form):
         form.instance.post_type = Post.ARTICLE
@@ -129,7 +131,7 @@ class ProfileUpdateView(UpdateView):
 
 
 @login_required
-def subscribe_view(request, category_id, email):
+def subscribe_view(request, category_id):
     category = get_object_or_404(Category, id=category_id)
     user_email = request.user.email
     user = request.user
